@@ -17,7 +17,6 @@
             <!--  NavigationView  -->
         </Grid.RowDefinitions>
 
-
         <Grid x:Name="titleBar" Height="48">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition x:Name="LeftPaddingColumn" Width="0" />
@@ -35,12 +34,14 @@
                 <ColumnDefinition x:Name="AccountColumn" Width="Auto" />
                 <ColumnDefinition x:Name="RightPaddingColumn" Width="0" />
             </Grid.ColumnDefinitions>
+
             <Image
                 x:Name="TitleBarIcon"
                 Grid.Column="1"
                 Width="22"
                 Height="22"
-                Margin="16,12,16,8" />
+                Margin="16,12,16,8"
+                Source="/Assets/Square44x44Logo.targetsize-16.png" />
             <TextBlock
                 x:Name="TitleBarTextBlock"
                 Grid.Column="2"
