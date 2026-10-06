@@ -1,7 +1,9 @@
 
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
+using PrinterManager.Pages;
 using System;
 using System.Drawing;
 using System.IO;
@@ -22,14 +24,64 @@ namespace PrinterManager
         public MainWindow()
         {
             InitializeComponent();
+            InitializeWindow();
+            InitializeFrame();
+        }
+
+
+        private void InitializeWindow()
+        {
             ExtendsContentIntoTitleBar = true;
             Title = AppTitle;
             SetTitleBar(titleBar);
-            string iconPath = Path.Combine(AppContext.BaseDirectory, "Assets", "IconGroup51.ico");
+            SetIcon();
+            UpdateSelectedIcon(DefaultDetailsViewItem);
+        }
+
+        private void SetIcon()
+        {
+            string iconPath = Path.Combine(AppContext.BaseDirectory, "Assets", "Icons", "IconGroup51.ico");
             if (File.Exists(iconPath))
                 AppWindow.SetIcon(iconPath);
             else
                 System.Diagnostics.Debug.WriteLine($"Icon not found: {iconPath}");
+        }
+
+        private void InitializeFrame()
+        {
+            navFrame.Navigate(typeof(CustomFiltersPage));
+        }
+
+
+        private void ViewMode_Click(object sender, RoutedEventArgs e)
+        {
+            // בלחיצה: עדכון האייקון לפי הפריט שנלחץ
+            if (sender is RadioMenuFlyoutItem item)
+            {
+                UpdateSelectedIcon(item);
+            }
+        }
+
+        private void UpdateSelectedIcon(RadioMenuFlyoutItem item)
+        {
+            if (item == null) return;
+
+            if (item.Icon is FontIcon fontIcon)
+            {
+                SelectedIconPresenter.Content = new FontIcon
+                {
+                    Glyph = fontIcon.Glyph,
+                    FontFamily = fontIcon.FontFamily,
+                    FontSize = 20
+                };
+            }
+            else if (item.Icon is SymbolIcon symbolIcon)
+            {
+                SelectedIconPresenter.Content = new SymbolIcon
+                {
+                    Symbol = symbolIcon.Symbol
+                };
+            }
         }
     }
 }

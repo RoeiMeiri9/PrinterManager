@@ -41,7 +41,7 @@
                 Width="22"
                 Height="22"
                 Margin="16,12,16,8"
-                Source="/Assets/Square44x44Logo.targetsize-16.png" />
+                Source="/Assets/Icons/Square44x44Logo.targetsize-16.png" />
             <TextBlock
                 x:Name="TitleBarTextBlock"
                 Grid.Column="2"
@@ -79,7 +79,148 @@
                     Tag="DeployedPrintersPage" />
             </NavigationView.MenuItems>
 
-            <Frame x:Name="navFrame" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition x:Name="Controls" Height="auto" />
+                    <RowDefinition x:Name="Frame" Height="*" />
+                </Grid.RowDefinitions>
+                <Grid
+                    Grid.Row="0"
+                    BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+                    BorderThickness="0,0,0,1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel
+                        Padding="8"
+                        Orientation="Horizontal"
+                        Spacing="4">
+                        <DropDownButton
+                            x:Name="ViewDropDownButton"
+                            Height="36"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="0">
+                            <DropDownButton.Content>
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <ContentPresenter x:Name="SelectedIconPresenter" VerticalAlignment="Center" />
+                                    <TextBlock
+                                        Margin="0,-1,8,1"
+                                        VerticalAlignment="Center"
+                                        Text="View" />
+                                </StackPanel>
+                            </DropDownButton.Content>
+
+                            <DropDownButton.Flyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem Icon="Add" Text="Add/Remove Columns..." />
+
+                                    <MenuFlyoutSeparator />
+
+                                    <RadioMenuFlyoutItem
+                                        Click="ViewMode_Click"
+                                        GroupName="ViewMode"
+                                        Text="Large Icons">
+                                        <RadioMenuFlyoutItem.Icon>
+                                            <FontIcon FontFamily="/Assets/Fonts/FluentSystemIcons-Regular.ttf#FluentSystemIcons-Regular" Glyph="&#xF12B;" />
+                                        </RadioMenuFlyoutItem.Icon>
+                                    </RadioMenuFlyoutItem>
+
+                                    <RadioMenuFlyoutItem
+                                        Click="ViewMode_Click"
+                                        GroupName="ViewMode"
+                                        Icon="ViewAll"
+                                        Text="Small Icons" />
+
+                                    <RadioMenuFlyoutItem
+                                        Click="ViewMode_Click"
+                                        GroupName="ViewMode"
+                                        Icon="AllApps"
+                                        Text="List" />
+
+                                    <RadioMenuFlyoutItem
+                                        x:Name="DefaultDetailsViewItem"
+                                        Click="ViewMode_Click"
+                                        GroupName="ViewMode"
+                                        IsChecked="True"
+                                        Text="Details">
+                                        <RadioMenuFlyoutItem.Icon>
+                                            <FontIcon FontFamily="/Assets/Fonts/FluentSystemIcons-Regular.ttf#FluentSystemIcons-Regular" Glyph="&#xE065;" />
+                                        </RadioMenuFlyoutItem.Icon>
+                                    </RadioMenuFlyoutItem>
+
+                                    <MenuFlyoutSeparator />
+
+                                    <MenuFlyoutItem Text="Customize..." />
+                                </MenuFlyout>
+                            </DropDownButton.Flyout>
+                        </DropDownButton>
+                        <Button
+                            Height="36"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="0">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon Glyph="&#xE894;" />
+                                <TextBlock
+                                    Margin="0,-1,8,1"
+                                    VerticalAlignment="Center"
+                                    Text="Remove" />
+                            </StackPanel>
+                        </Button>
+                        <Button
+                            Height="36"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="0">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon Glyph="&#xEDE1;" />
+                                <TextBlock
+                                    Margin="0,-1,8,1"
+                                    VerticalAlignment="Center"
+                                    Text="Export" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <StackPanel
+                        Grid.Column="1"
+                        Padding="8"
+                        Orientation="Horizontal"
+                        Spacing="4">
+                        <Button
+                            Height="36"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="0">
+                            <FontIcon FontSize="14" Glyph="&#xE72C;" />
+                        </Button>
+                        <Button
+                            Height="36"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="0">
+                            <FontIcon FontSize="14" Glyph="&#xE74A;" />
+                        </Button>
+                        <Button
+                            Height="36"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="0">
+                            <FontIcon FontSize="14" Glyph="&#xE72B;" />
+                        </Button>
+                        <Button
+                            Height="36"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="0">
+                            <FontIcon FontSize="14" Glyph="&#xE72A;" />
+                        </Button>
+                    </StackPanel>
+                </Grid>
+                <Frame x:Name="navFrame" Grid.Row="1" />
+            </Grid>
         </NavigationView>
     </Grid>
 </Window>
