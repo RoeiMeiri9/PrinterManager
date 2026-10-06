@@ -17,16 +17,67 @@
             <!--  NavigationView  -->
         </Grid.RowDefinitions>
 
-        <TitleBar
-        x:Name="titleBar"
-        IsBackButtonVisible="{x:Bind navFrame.CanGoBack, Mode=OneWay}"
-        IsPaneToggleButtonVisible="True"/>
+
+        <Grid x:Name="titleBar" Height="48">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="LeftPaddingColumn" Width="0" />
+                <ColumnDefinition x:Name="IconColumn" Width="Auto" />
+                <ColumnDefinition x:Name="TitleColumn" Width="Auto" />
+                <ColumnDefinition x:Name="LeftDragColumn" Width="*" />
+                <ColumnDefinition
+                    x:Name="SearchColumn"
+                    Width="4*"
+                    MinWidth="220" />
+                <ColumnDefinition
+                    x:Name="RightDragColumn"
+                    Width="*"
+                    MinWidth="48" />
+                <ColumnDefinition x:Name="AccountColumn" Width="Auto" />
+                <ColumnDefinition x:Name="RightPaddingColumn" Width="0" />
+            </Grid.ColumnDefinitions>
+            <Image
+                x:Name="TitleBarIcon"
+                Grid.Column="1"
+                Width="22"
+                Height="22"
+                Margin="16,12,16,8" />
+            <TextBlock
+                x:Name="TitleBarTextBlock"
+                Grid.Column="2"
+                VerticalAlignment="Center"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="{x:Bind AppTitle}" />
+            <AutoSuggestBox
+                x:Name="TitleBarSearchBox"
+                Grid.Column="4"
+                MaxWidth="600"
+                VerticalAlignment="Center"
+                PlaceholderText="Search for printers, drivers, forms, etc..."
+                QueryIcon="Find" />
+
+        </Grid>
 
         <NavigationView
-        x:Name="navView"
-        Grid.Row="1"
-        IsBackButtonVisible="Collapsed"
-        IsPaneToggleButtonVisible="False">
+            x:Name="navView"
+            Grid.Row="1"
+            IsBackButtonVisible="Collapsed"
+            IsPaneToggleButtonVisible="True">
+            <NavigationView.MenuItems>
+                <NavigationViewItem
+                    Content="Custom Filters"
+                    Icon="Filter"
+                    Tag="CustomFiltersPage" />
+                <NavigationViewItem Content="Printer Servers" Tag="PrinterServersPage">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xEDA5;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem
+                    Content="Deployed Printers"
+                    Icon="Print"
+                    Tag="DeployedPrintersPage" />
+            </NavigationView.MenuItems>
+
             <Frame x:Name="navFrame" />
         </NavigationView>
     </Grid>
