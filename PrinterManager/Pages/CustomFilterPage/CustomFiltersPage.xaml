@@ -13,59 +13,6 @@
     x:Name="PageRoot"
     mc:Ignorable="d">
 
-    <Page.Resources>
-        <ResourceDictionary>
-            <Style x:Key="RoundedHeaderButtonStyle" TargetType="Button">
-                <Setter Property="Background" Value="Transparent" />
-                <Setter Property="BorderBrush" Value="Transparent" />
-                <Setter Property="BorderThickness" Value="0" />
-                <Setter Property="CornerRadius" Value="6" />
-                <Setter Property="Padding" Value="12,6" />
-                <Setter Property="HorizontalAlignment" Value="Stretch" />
-                <Setter Property="HorizontalContentAlignment" Value="Left" />
-                <Setter Property="VerticalContentAlignment" Value="Center" />
-
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="Button">
-                            <ContentPresenter
-                                x:Name="ContentPresenter"
-                                Padding="{TemplateBinding Padding}"
-                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}"
-                                CornerRadius="{TemplateBinding CornerRadius}">
-                                <VisualStateManager.VisualStateGroups>
-                                    <VisualStateGroup x:Name="CommonStates">
-                                        <VisualState x:Name="Normal" />
-
-                                        <VisualState x:Name="PointerOver">
-                                            <VisualState.Setters>
-                                                <Setter Target="ContentPresenter.Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
-                                                <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-
-                                        <VisualState x:Name="Pressed">
-                                            <VisualState.Setters>
-                                                <Setter Target="ContentPresenter.Background" Value="{ThemeResource CardBackgroundFillColorSecondaryBrush}" />
-                                                <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                    </VisualStateGroup>
-                                </VisualStateManager.VisualStateGroups>
-                            </ContentPresenter>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-        </ResourceDictionary>
-    </Page.Resources>
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -185,218 +132,43 @@
                 ResizeDirection="Columns" />
 
 
+            <ctl:DataTable
+                x:Name="PrintersTable"
+                Grid.Column="2"
+                ItemsSource="{x:Bind FiltersList}">
 
-            <!--  Outer ScrollViewer: horizontal scrolling only  -->
-            <Grid Grid.Column="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
+                <ctl:TableColumn
+                    Width="250"
+                    Header="Printer Name"
+                    IsPrimary="True"
+                    Path="Name" />
+                <ctl:TableColumn
+                    Width="180"
+                    Header="Server / IP"
+                    Path="ServerName" />
 
-                <!--  ================= HEADER =================  -->
-                <!--  No visible scrollbar; its offset is driven from code-behind  -->
-                <ScrollViewer
-                    x:Name="HeaderScroller"
-                    Grid.Row="0"
-                    HorizontalScrollBarVisibility="Hidden"
-                    HorizontalScrollMode="Enabled"
-                    IsTabStop="False"
-                    VerticalScrollBarVisibility="Disabled"
-                    VerticalScrollMode="Disabled">
-
-                    <!--  Right margin = room for the list's vertical scrollbar, so the header can always reach the list's offset  -->
-                    <Grid
-                        Width="{x:Bind ColumnSettings.TotalWidth, Mode=OneWay}"
-                        Margin="16,16,24,8"
-                        HorizontalAlignment="Left">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="{x:Bind ColumnSettings.NameColumnWidth, Mode=OneWay}" />
-                            <ColumnDefinition Width="{x:Bind ColumnSettings.ServerColumnWidth, Mode=OneWay}" />
-                            <ColumnDefinition Width="{x:Bind ColumnSettings.StatusColumnWidth, Mode=OneWay}" />
-                            <ColumnDefinition Width="{x:Bind ColumnSettings.DriverColumnWidth, Mode=OneWay}" />
-                        </Grid.ColumnDefinitions>
-
-                        <!--  Name  -->
-                        <Grid Grid.Column="0">
-                            <Button Style="{StaticResource RoundedHeaderButtonStyle}">
-                                <TextBlock
-                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="Printer Name"
-                                    TextTrimming="CharacterEllipsis" />
-                            </Button>
-                            <Rectangle
-                                Width="1"
-                                Margin="0,6"
-                                HorizontalAlignment="Right"
-                                Fill="{ThemeResource DividerStrokeColorDefaultBrush}"
-                                IsHitTestVisible="False" />
-                            <prim:Thumb
-                                Width="8"
-                                HorizontalAlignment="Right"
-                                ctl:ThumbCursor.ResizeCursor="True"
-                                Background="Transparent"
-                                DragDelta="ResizeThumb_DragDelta"
-                                Tag="0" />
-                        </Grid>
-
-                        <!--  Server / IP  -->
-                        <Grid Grid.Column="1" Visibility="{x:Bind ColumnSettings.ServerVisibility, Mode=OneWay}">
-                            <Button Style="{StaticResource RoundedHeaderButtonStyle}">
-                                <TextBlock
-                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="Server / IP"
-                                    TextTrimming="CharacterEllipsis" />
-                            </Button>
-                            <Rectangle
-                                Width="1"
-                                Margin="0,6"
-                                HorizontalAlignment="Right"
-                                Fill="{ThemeResource DividerStrokeColorDefaultBrush}"
-                                IsHitTestVisible="False" />
-                            <prim:Thumb
-                                Width="8"
-                                HorizontalAlignment="Right"
-                                ctl:ThumbCursor.ResizeCursor="True"
-                                Background="Transparent"
-                                DragDelta="ResizeThumb_DragDelta"
-                                Tag="1" />
-                        </Grid>
-
-                        <!--  Status  -->
-                        <Grid Grid.Column="2" Visibility="{x:Bind ColumnSettings.StatusVisibility, Mode=OneWay}">
-                            <Button Style="{StaticResource RoundedHeaderButtonStyle}">
-                                <TextBlock
-                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="Status"
-                                    TextTrimming="CharacterEllipsis" />
-                            </Button>
-                            <Rectangle
-                                Width="1"
-                                Margin="0,6"
-                                HorizontalAlignment="Right"
-                                Fill="{ThemeResource DividerStrokeColorDefaultBrush}"
-                                IsHitTestVisible="False" />
-                            <prim:Thumb
-                                Width="8"
-                                HorizontalAlignment="Right"
-                                ctl:ThumbCursor.ResizeCursor="True"
-                                Background="Transparent"
-                                DragDelta="ResizeThumb_DragDelta"
-                                Tag="2" />
-                        </Grid>
-
-                        <!--  Driver  -->
-                        <Grid Grid.Column="3" Visibility="{x:Bind ColumnSettings.DriverVisibility, Mode=OneWay}">
-                            <Button Style="{StaticResource RoundedHeaderButtonStyle}">
-                                <TextBlock
-                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="Driver"
-                                    TextTrimming="CharacterEllipsis" />
-                            </Button>
-                            <Rectangle
-                                Width="1"
-                                Margin="0,6"
-                                HorizontalAlignment="Right"
-                                Fill="{ThemeResource DividerStrokeColorDefaultBrush}"
-                                IsHitTestVisible="False" />
-                            <prim:Thumb
-                                Width="8"
-                                HorizontalAlignment="Right"
-                                ctl:ThumbCursor.ResizeCursor="True"
-                                Background="Transparent"
-                                DragDelta="ResizeThumb_DragDelta"
-                                Tag="3" />
-                        </Grid>
-                    </Grid>
-                </ScrollViewer>
-
-                <!--  ================= ROWS =================  -->
-                <!--  The ListView scrolls in both directions itself, so both scrollbars stay at the edges of the visible area  -->
-                <ListView
-                    x:Name="FiltersListView"
-                    Grid.Row="1"
-                    Padding="16,0,0,0"
-                    ItemsSource="{x:Bind FiltersList}"
-                    Loaded="FiltersListView_Loaded"
-                    ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                    ScrollViewer.HorizontalScrollMode="Enabled"
-                    ScrollViewer.VerticalScrollBarVisibility="Auto"
-                    ScrollViewer.VerticalScrollMode="Enabled"
-                    SelectionMode="Single">
-
-                    <ListView.ItemContainerStyle>
-                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
-                            <Setter Property="HorizontalContentAlignment" Value="Left" />
-                            <Setter Property="Padding" Value="0" />
-                        </Style>
-                    </ListView.ItemContainerStyle>
-
-                    <ListView.ItemTemplate>
+                <ctl:TableColumn Width="120" Header="Status">
+                    <ctl:TableColumn.CellTemplate>
                         <DataTemplate x:DataType="vm:FilterModel">
-                            <Grid
-                                Width="{Binding ElementName=PageRoot, Path=ColumnSettings.TotalWidth}"
-                                Padding="0,6"
-                                HorizontalAlignment="Left">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="{Binding ElementName=PageRoot, Path=ColumnSettings.NameColumnWidth}" />
-                                    <ColumnDefinition Width="{Binding ElementName=PageRoot, Path=ColumnSettings.ServerColumnWidth}" />
-                                    <ColumnDefinition Width="{Binding ElementName=PageRoot, Path=ColumnSettings.StatusColumnWidth}" />
-                                    <ColumnDefinition Width="{Binding ElementName=PageRoot, Path=ColumnSettings.DriverColumnWidth}" />
-                                </Grid.ColumnDefinitions>
-
-                                <!--  Name  -->
+                            <Border
+                                Padding="8,3"
+                                HorizontalAlignment="Left"
+                                Background="#4439822f"
+                                CornerRadius="12">
                                 <TextBlock
-                                    Grid.Column="0"
-                                    Margin="12,0,12,0"
-                                    VerticalAlignment="Center"
-                                    FontWeight="SemiBold"
-                                    Text="{x:Bind Name, Mode=OneWay}"
-                                    TextTrimming="CharacterEllipsis" />
-
-                                <!--  Server  -->
-                                <TextBlock
-                                    Grid.Column="1"
-                                    Margin="12,0,12,0"
-                                    VerticalAlignment="Center"
-                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                    Text="{x:Bind ServerName, Mode=OneWay}"
-                                    TextTrimming="CharacterEllipsis"
-                                    Visibility="{Binding ElementName=PageRoot, Path=ColumnSettings.ServerVisibility}" />
-
-                                <!--  Status  -->
-                                <Border
-                                    Grid.Column="2"
-                                    Margin="12,0,12,0"
-                                    Padding="8,3"
-                                    HorizontalAlignment="Left"
-                                    Background="#4439822f"
-                                    CornerRadius="12"
-                                    Visibility="{Binding ElementName=PageRoot, Path=ColumnSettings.StatusVisibility}">
-                                    <TextBlock
-                                        FontSize="12"
-                                        Foreground="{ThemeResource SystemFillColorSuccessBrush}"
-                                        Text="{x:Bind Status, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis" />
-                                </Border>
-
-                                <!--  Driver  -->
-                                <TextBlock
-                                    Grid.Column="3"
-                                    Margin="12,0,12,0"
-                                    VerticalAlignment="Center"
-                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                    Text="{x:Bind DriverName, Mode=OneWay}"
-                                    TextTrimming="CharacterEllipsis"
-                                    Visibility="{Binding ElementName=PageRoot, Path=ColumnSettings.DriverVisibility}" />
-                            </Grid>
+                                    FontSize="12"
+                                    Foreground="{ThemeResource SystemFillColorSuccessBrush}"
+                                    Text="{x:Bind Status, Mode=OneWay}" />
+                            </Border>
                         </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Grid>
+                    </ctl:TableColumn.CellTemplate>
+                </ctl:TableColumn>
+
+                <ctl:TableColumn
+                    Width="220"
+                    Header="Driver"
+                    Path="DriverName" />
+            </ctl:DataTable>
         </Grid>
     </Grid>
 </Page>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="PrinterManager.Controls.DataTable"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PrinterManager.Controls"
+    xmlns:prim="using:Microsoft.UI.Xaml.Controls.Primitives">
+
+    <UserControl.Resources>
+
+        <Style x:Key="RoundedHeaderButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Padding" Value="12,6" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <ContentPresenter
+                            x:Name="ContentPresenter"
+                            Padding="{TemplateBinding Padding}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Target="ContentPresenter.Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+                                            <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+
+                                    <VisualState x:Name="Pressed">
+                                        <VisualState.Setters>
+                                            <Setter Target="ContentPresenter.Background" Value="{ThemeResource CardBackgroundFillColorSecondaryBrush}" />
+                                            <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </ContentPresenter>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <DataTemplate x:Key="TextCellTemplate">
+            <TextBlock
+                VerticalAlignment="Center"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Text="{Binding}"
+                TextTrimming="CharacterEllipsis" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="PrimaryTextCellTemplate">
+            <TextBlock
+                VerticalAlignment="Center"
+                FontWeight="SemiBold"
+                Text="{Binding}"
+                TextTrimming="CharacterEllipsis" />
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--  HEADER: built automatically from Columns  -->
+        <ScrollViewer
+            x:Name="HeaderScroller"
+            Grid.Row="0"
+            HorizontalScrollBarVisibility="Hidden"
+            HorizontalScrollMode="Enabled"
+            IsTabStop="False"
+            VerticalScrollBarVisibility="Disabled"
+            VerticalScrollMode="Disabled">
+
+            <ItemsControl Margin="16,8,24,8" ItemsSource="{x:Bind Columns}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="local:TableColumn">
+                        <Grid Width="{x:Bind DisplayWidth, Mode=OneWay}" Visibility="{x:Bind CellVisibility, Mode=OneWay}">
+                            <Button Style="{StaticResource RoundedHeaderButtonStyle}">
+                                <TextBlock
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="{x:Bind Header}"
+                                    TextTrimming="CharacterEllipsis" />
+                            </Button>
+                            <Rectangle
+                                Width="1"
+                                Margin="0,6"
+                                HorizontalAlignment="Right"
+                                Fill="{ThemeResource DividerStrokeColorDefaultBrush}"
+                                IsHitTestVisible="False" />
+                            <prim:Thumb
+                                Width="8"
+                                HorizontalAlignment="Right"
+                                local:ThumbCursor.ResizeCursor="True"
+                                Background="Transparent"
+                                DragDelta="Thumb_DragDelta" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <!--  ROWS: each row is a TableRow that builds its own cells  -->
+        <ListView
+            x:Name="RowsList"
+            Grid.Row="1"
+            Padding="16,0"
+            Loaded="RowsList_Loaded"
+            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+            ScrollViewer.HorizontalScrollMode="Enabled"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            ScrollViewer.VerticalScrollMode="Enabled"
+            SelectionChanged="RowsList_SelectionChanged"
+            SelectionMode="Single">
+
+            <ListView.ItemContainerStyle>
+                <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Left" />
+                    <Setter Property="Padding" Value="0" />
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <local:TableRow />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</UserControl>

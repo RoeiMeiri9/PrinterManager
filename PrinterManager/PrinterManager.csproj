@@ -37,6 +37,7 @@
     <None Remove="Assets\Icons\Square44x44Logo.targetsize-48.png" />
     <None Remove="Assets\Icons\Square44x44Logo.targetsize-48_altform-lightunplated.png" />
     <None Remove="Assets\Icons\Square44x44Logo.targetsize-48_altform-unplated.png" />
+    <None Remove="Controls\DataTable.xaml" />
     <None Remove="CustomFiltersPage.xaml" />
     <None Remove="Pages\CustomFiltersPage.xaml" />
   </ItemGroup>
@@ -113,12 +114,18 @@
     <None Update="Assets\Icons\IconGroup51.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\DataTable.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Pages\CustomFiltersPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="CustomFiltersPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controls\DataTable\" />
   </ItemGroup>
 
   <!--
