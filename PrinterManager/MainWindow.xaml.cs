@@ -1,14 +1,20 @@
 
 using Microsoft.UI;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
+using PrinterManager.Helpers.WindowHelpers;
+using PrinterManager.Helpers.WindowHelpers;
 using PrinterManager.Pages;
 using System;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 using Windows.ApplicationModel;
+using Windows.Graphics;
 using WinRT.Interop;
 
 
@@ -20,6 +26,13 @@ namespace PrinterManager
     public sealed partial class MainWindow : Window
     {
         public string AppTitle => Windows.ApplicationModel.Package.Current.DisplayName;
+        private const int MinWindowWidth = 800;
+        private const int MinWindowHeight = 600;
+
+        private const double CompactWidth = 641.2;
+
+        private bool? _isCompact;          // null = not applied yet
+        private bool _restoreSearchFocus;
 
         public MainWindow()
         {
@@ -36,6 +49,8 @@ namespace PrinterManager
             SetTitleBar(titleBar);
             SetIcon();
             UpdateSelectedIcon(DefaultDetailsViewItem);
+            this.SetMinimumSize(800, 600);
+            this.SizeChanged += MainWindow_SizeChanged;
         }
 
         private void SetIcon()
@@ -50,16 +65,6 @@ namespace PrinterManager
         private void InitializeFrame()
         {
             navFrame.Navigate(typeof(CustomFiltersPage));
-        }
-
-
-        private void ViewMode_Click(object sender, RoutedEventArgs e)
-        {
-            // בלחיצה: עדכון האייקון לפי הפריט שנלחץ
-            if (sender is RadioMenuFlyoutItem item)
-            {
-                UpdateSelectedIcon(item);
-            }
         }
 
         private void UpdateSelectedIcon(RadioMenuFlyoutItem item)
@@ -81,6 +86,106 @@ namespace PrinterManager
                 {
                     Symbol = symbolIcon.Symbol
                 };
+            }
+        }
+
+
+        // ---------------------------------------- //
+        //              Event Handlers              //
+        // ---------------------------------------- //
+
+        private void ViewMode_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is RadioMenuFlyoutItem item)
+            {
+                UpdateSelectedIcon(item);
+            }
+        }
+        private void TitleBar_PaneToggleRequested(TitleBar sender, object args)
+        {
+            navView.IsPaneOpen = !navView.IsPaneOpen;
+        }
+
+
+        private void MainWindow_SizeChanged(object sender, WindowSizeChangedEventArgs args)
+        {
+            bool compact = args.Size.Width <= CompactWidth;
+
+            if (compact == _isCompact)
+                return; // still on the same side of the threshold
+
+            _isCompact = compact;
+            ApplyLayout(compact);
+        }
+
+        private void ApplyLayout(bool compact)
+        {
+            navView.IsPaneToggleButtonVisible = !compact;
+            titleBar.IsPaneToggleButtonVisible = compact;
+            CustomAppTitle.Visibility = compact ? Visibility.Collapsed : Visibility.Visible;
+
+            if (compact)
+            {
+                // Remember focus BEFORE hiding anything
+                _restoreSearchFocus = IsSearchFocused();
+
+                TitleBarSearchBox.Visibility = Visibility.Collapsed;
+                SearchIconButton.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                SearchIconButton.Visibility = Visibility.Collapsed;
+                TitleBarSearchBox.Visibility = Visibility.Visible;
+
+                if (_restoreSearchFocus)
+                {
+                    _restoreSearchFocus = false;
+
+                    // Force a layout pass so the box is actually focusable,
+                    // then focus it once the dispatcher is free.
+                    TitleBarSearchBox.UpdateLayout();
+                    DispatcherQueue.TryEnqueue(() =>
+                        TitleBarSearchBox.Focus(FocusState.Programmatic));
+                }
+            }
+        }
+
+        private bool IsSearchFocused()
+        {
+            if (TitleBarSearchBox.Visibility != Visibility.Visible)
+                return false;
+
+            // The real focused element is usually the inner TextBox,
+            // so walk up the visual tree instead of comparing directly.
+            DependencyObject? current =
+                FocusManager.GetFocusedElement(Content.XamlRoot) as DependencyObject;
+
+            while (current != null)
+            {
+                if (current == TitleBarSearchBox) return true;
+                current = VisualTreeHelper.GetParent(current);
+            }
+            return false;
+        }
+
+        private void SearchIconButton_Click(object sender, RoutedEventArgs e)
+        {
+            SearchIconButton.Visibility = Visibility.Collapsed;
+            TitleBarSearchBox.Visibility = Visibility.Visible;
+            TitleBarSearchBox.UpdateLayout();
+            TitleBarSearchBox.Focus(FocusState.Programmatic);
+        }
+
+        private void TitleBarSearchBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            // Only relevant in compact mode: fold back into the icon when empty
+            if (_isCompact == true && string.IsNullOrWhiteSpace(TitleBarSearchBox.Text))
+            {
+                DispatcherQueue.TryEnqueue(() =>
+                {
+                    TitleBarSearchBox.Visibility = Visibility.Collapsed;
+                    SearchIconButton.Visibility = Visibility.Visible;
+                });
             }
         }
     }

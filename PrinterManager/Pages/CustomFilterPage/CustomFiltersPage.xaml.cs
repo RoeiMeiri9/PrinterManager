@@ -23,7 +23,7 @@ namespace PrinterManager.Pages
         public ObservableCollection<FilterModel> FiltersList { get; } = new ObservableCollection<FilterModel>();
 
         public ColumnSettings ColumnSettings { get; } = new();
-
+        private ScrollViewer? _listScroller;
         public CustomFiltersPage()
         {
             InitializeComponent();
@@ -47,6 +47,102 @@ namespace PrinterManager.Pages
                 Status = "Offline",
                 DriverName = "Zebra ZPL Driver"
             });
+
+            FiltersList.Add(new FilterModel
+            {
+                Name = "Warehouse-Zebra-Label",
+                ServerName = "192.168.1.105",
+                Status = "Offline",
+                DriverName = "Zebra ZPL Driver"
+            });
+
+            FiltersList.Add(new FilterModel
+            {
+                Name = "Warehouse-Zebra-Label",
+                ServerName = "192.168.1.105",
+                Status = "Offline",
+                DriverName = "Zebra ZPL Driver"
+            });
+
+            FiltersList.Add(new FilterModel
+            {
+                Name = "Warehouse-Zebra-Label",
+                ServerName = "192.168.1.105",
+                Status = "Offline",
+                DriverName = "Zebra ZPL Driver"
+            });
+
+            FiltersList.Add(new FilterModel
+            {
+                Name = "Warehouse-Zebra-Label",
+                ServerName = "192.168.1.105",
+                Status = "Offline",
+                DriverName = "Zebra ZPL Driver"
+            });
+
+            FiltersList.Add(new FilterModel
+            {
+                Name = "Warehouse-Zebra-Label",
+                ServerName = "192.168.1.105",
+                Status = "Offline",
+                DriverName = "Zebra ZPL Driver"
+            });
+
+            FiltersList.Add(new FilterModel
+            {
+                Name = "Warehouse-Zebra-Label",
+                ServerName = "192.168.1.105",
+                Status = "Offline",
+                DriverName = "Zebra ZPL Driver"
+            });
+
+            FiltersList.Add(new FilterModel
+            {
+                Name = "Warehouse-Zebra-Label",
+                ServerName = "192.168.1.105",
+                Status = "Offline",
+                DriverName = "Zebra ZPL Driver"
+            });
+
+            FiltersList.Add(new FilterModel
+            {
+                Name = "Warehouse-Zebra-Label",
+                ServerName = "192.168.1.105",
+                Status = "Offline",
+                DriverName = "Zebra ZPL Driver"
+            });
+
+            FiltersList.Add(new FilterModel
+            {
+                Name = "Warehouse-Zebra-Label",
+                ServerName = "192.168.1.105",
+                Status = "Offline",
+                DriverName = "Zebra ZPL Driver"
+            });
+
+            FiltersList.Add(new FilterModel
+            {
+                Name = "Warehouse-Zebra-Label",
+                ServerName = "192.168.1.105",
+                Status = "Offline",
+                DriverName = "Zebra ZPL Driver"
+            });
+
+            FiltersList.Add(new FilterModel
+            {
+                Name = "Warehouse-Zebra-Label",
+                ServerName = "192.168.1.105",
+                Status = "Offline",
+                DriverName = "Zebra ZPL Driver"
+            });
+
+            FiltersList.Add(new FilterModel
+            {
+                Name = "Warehouse-Zebra-Label",
+                ServerName = "192.168.1.105",
+                Status = "Offline",
+                DriverName = "Zebra ZPL Driver"
+            });
         }
 
 
@@ -61,6 +157,36 @@ namespace PrinterManager.Pages
             if (SubNavListView.SelectedItem is ListViewItem selectedItem)
             {
             }
+        }
+
+        private void FiltersListView_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (_listScroller != null) return;
+
+            _listScroller = FindDescendant<ScrollViewer>(FiltersListView);
+            if (_listScroller != null)
+                _listScroller.ViewChanged += ListScroller_ViewChanged;
+        }
+
+        // Keep the header's horizontal position equal to the list's
+        private void ListScroller_ViewChanged(object? sender, ScrollViewerViewChangedEventArgs e)
+        {
+            if (_listScroller != null)
+                HeaderScroller.ChangeView(_listScroller.HorizontalOffset, null, null, true);
+        }
+
+        private static T? FindDescendant<T>(DependencyObject root) where T : DependencyObject
+        {
+            int count = VisualTreeHelper.GetChildrenCount(root);
+            for (int i = 0; i < count; i++)
+            {
+                var child = VisualTreeHelper.GetChild(root, i);
+                if (child is T match) return match;
+
+                var result = FindDescendant<T>(child);
+                if (result != null) return result;
+            }
+            return null;
         }
     }
 }

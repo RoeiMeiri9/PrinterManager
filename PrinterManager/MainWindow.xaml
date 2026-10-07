@@ -14,47 +14,50 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
-        <Grid x:Name="titleBar" Height="48">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="LeftPaddingColumn" Width="0" />
-                <ColumnDefinition x:Name="IconColumn" Width="Auto" />
-                <ColumnDefinition x:Name="TitleColumn" Width="Auto" />
-                <ColumnDefinition x:Name="LeftDragColumn" Width="*" />
-                <ColumnDefinition
-                    x:Name="SearchColumn"
-                    Width="4*"
-                    MinWidth="220" />
-                <ColumnDefinition
-                    x:Name="RightDragColumn"
-                    Width="*"
-                    MinWidth="48" />
-                <ColumnDefinition x:Name="AccountColumn" Width="Auto" />
-                <ColumnDefinition x:Name="RightPaddingColumn" Width="0" />
-            </Grid.ColumnDefinitions>
-
-            <Image
-                x:Name="TitleBarIcon"
-                Grid.Column="1"
-                Width="22"
-                Height="22"
-                Margin="16,12,16,8"
-                Source="/Assets/Icons/Square44x44Logo.targetsize-16.png" />
-            <TextBlock
-                x:Name="TitleBarTextBlock"
-                Grid.Column="2"
-                VerticalAlignment="Center"
-                Style="{StaticResource CaptionTextBlockStyle}"
-                Text="{x:Bind AppTitle}" />
-            <AutoSuggestBox
-                x:Name="TitleBarSearchBox"
-                Grid.Column="4"
-                MaxWidth="600"
-                VerticalAlignment="Center"
-                PlaceholderText="Search for printers, drivers, forms, etc..."
-                QueryIcon="Find" />
-
-        </Grid>
+        <TitleBar
+            x:Name="titleBar"
+            Height="54"
+            IsBackButtonVisible="{x:Bind navFrame.CanGoBack, Mode=OneWay}"
+            IsPaneToggleButtonVisible="False"
+            PaneToggleRequested="TitleBar_PaneToggleRequested">
+            <TitleBar.Resources>
+                <HorizontalAlignment x:Key="TitleBarContentHorizontalAlignment">Stretch</HorizontalAlignment>
+            </TitleBar.Resources>
+            <TitleBar.IconSource>
+                <ImageIconSource ImageSource="/Assets/Icons/IconGroup51.ico" />
+            </TitleBar.IconSource>
+            <TitleBar.Content>
+                <Grid x:Name="TitleBarSearchBoxContainer">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        x:Name="CustomAppTitle"
+                        Grid.Column="0"
+                        Margin="12,0,16,0"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource BodyTextBlockStyle}"
+                        Text="{x:Bind AppTitle}" />
+                    <Button
+                        x:Name="SearchIconButton"
+                        Grid.Column="1"
+                        Click="SearchIconButton_Click"
+                        Style="{StaticResource SubtleButtonStyle}"
+                        Visibility="Collapsed">
+                        <FontIcon Glyph="&#xE721;" />
+                    </Button>
+                    <AutoSuggestBox
+                        x:Name="TitleBarSearchBox"
+                        Grid.Column="1"
+                        MaxWidth="600"
+                        VerticalAlignment="Center"
+                        LostFocus="TitleBarSearchBox_LostFocus"
+                        PlaceholderText="Search for printers, drivers, forms, etc..."
+                        QueryIcon="Find" />
+                </Grid>
+            </TitleBar.Content>
+        </TitleBar>
 
         <NavigationView
             x:Name="navView"
@@ -221,5 +224,6 @@
                 <Frame x:Name="navFrame" Grid.Row="1" />
             </Grid>
         </NavigationView>
+
     </Grid>
 </Window>
