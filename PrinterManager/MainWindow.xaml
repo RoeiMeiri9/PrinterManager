@@ -12,9 +12,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <!--  TitleBar  -->
             <RowDefinition Height="*" />
-            <!--  NavigationView  -->
         </Grid.RowDefinitions>
 
         <Grid x:Name="titleBar" Height="48">
@@ -62,7 +60,8 @@
             x:Name="navView"
             Grid.Row="1"
             IsBackButtonVisible="Collapsed"
-            IsPaneToggleButtonVisible="True">
+            IsPaneToggleButtonVisible="True"
+            OpenPaneLength="220">
             <NavigationView.MenuItems>
                 <NavigationViewItem
                     Content="Custom Filters"
