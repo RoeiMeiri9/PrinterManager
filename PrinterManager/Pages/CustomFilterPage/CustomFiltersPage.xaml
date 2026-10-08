@@ -12,6 +12,7 @@
     xmlns:prim="using:Microsoft.UI.Xaml.Controls.Primitives"
     xmlns:vm="using:PrinterManager.Pages.CustomFilterPage"
     x:Name="PageRoot"
+    d:DataContext="{d:DesignInstance Type=converters:FilterModel}"
     mc:Ignorable="d">
 
     <Page.Resources>

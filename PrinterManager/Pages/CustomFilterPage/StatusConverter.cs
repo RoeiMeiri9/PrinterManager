@@ -2,12 +2,8 @@
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace PrinterManager.Pages.CustomFilterPage 
+namespace PrinterManager.Pages.CustomFilterPage
 {
     // מחלקה שתחזיק גם את הרקע וגם את צבע הטקסט
     public class StatusColors
@@ -57,7 +53,7 @@ namespace PrinterManager.Pages.CustomFilterPage
                             ? names.Foreground
                             : names.Background;
 
-            
+
 
             if (Application.Current.Resources.TryGetValue(resourceKey, out object resource) && resource is Brush brush)
             {

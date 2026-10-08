@@ -1,26 +1,17 @@
 
-using Microsoft.UI;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Imaging;
-using PrinterManager.Helpers.WindowHelpers;
 using PrinterManager.Helpers.WindowHelpers;
 using PrinterManager.Pages;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using System.Runtime.InteropServices;
-using Windows.ApplicationModel;
-using Windows.Graphics;
-using WinRT.Interop;
-using Microsoft.UI.Input;
-using Windows.Graphics;
 using Windows.Foundation;
+using Windows.Graphics;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -53,8 +44,8 @@ namespace PrinterManager
             SetTitleBar(titleBar);
             SetIcon();
             UpdateSelectedIcon(DefaultDetailsViewItem);
-            this.SetMinimumSize(800, 600);
-            this.SizeChanged += MainWindow_SizeChanged;
+            this.SetMinimumSize(MinWindowWidth, MinWindowHeight);
+            SizeChanged += MainWindow_SizeChanged;
         }
 
         private void SetIcon()

@@ -1,8 +1,8 @@
-﻿using System.Collections.Specialized;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
+using System.Collections.Specialized;
 
 namespace PrinterManager.Controls;
 

@@ -5,10 +5,10 @@ namespace PrinterManager.Pages.CustomFilterPage
 {
     public class FilterModel : INotifyPropertyChanged
     {
-        private string _name;
-        private string _serverName;
-        private string _status;
-        private string _driverName;
+        private string _name = string.Empty;
+        private string _serverName = string.Empty;
+        private string _status = string.Empty;
+        private string _driverName = string.Empty;
 
         public string Name
         {
@@ -34,8 +34,8 @@ namespace PrinterManager.Pages.CustomFilterPage
             set { _driverName = value; OnPropertyChanged(); }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
