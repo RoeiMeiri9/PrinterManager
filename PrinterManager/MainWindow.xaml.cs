@@ -1,5 +1,6 @@
 
 using Microsoft.UI;
+using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -10,13 +11,16 @@ using PrinterManager.Helpers.WindowHelpers;
 using PrinterManager.Helpers.WindowHelpers;
 using PrinterManager.Pages;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 using Windows.ApplicationModel;
 using Windows.Graphics;
 using WinRT.Interop;
-
+using Microsoft.UI.Input;
+using Windows.Graphics;
+using Windows.Foundation;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -128,26 +132,14 @@ namespace PrinterManager
             {
                 // Remember focus BEFORE hiding anything
                 _restoreSearchFocus = IsSearchFocused();
-
-                TitleBarSearchBox.Visibility = Visibility.Collapsed;
-                SearchIconButton.Visibility = Visibility.Visible;
+                ToggleSearchBox(false);
             }
             else
             {
-                SearchIconButton.Visibility = Visibility.Collapsed;
-                TitleBarSearchBox.Visibility = Visibility.Visible;
-
-                if (_restoreSearchFocus)
-                {
-                    _restoreSearchFocus = false;
-
-                    // Force a layout pass so the box is actually focusable,
-                    // then focus it once the dispatcher is free.
-                    TitleBarSearchBox.UpdateLayout();
-                    DispatcherQueue.TryEnqueue(() =>
-                        TitleBarSearchBox.Focus(FocusState.Programmatic));
-                }
+                ToggleSearchBox(true, focus: _restoreSearchFocus);
+                _restoreSearchFocus = false;
             }
+
         }
 
         private bool IsSearchFocused()
@@ -155,8 +147,6 @@ namespace PrinterManager
             if (TitleBarSearchBox.Visibility != Visibility.Visible)
                 return false;
 
-            // The real focused element is usually the inner TextBox,
-            // so walk up the visual tree instead of comparing directly.
             DependencyObject? current =
                 FocusManager.GetFocusedElement(Content.XamlRoot) as DependencyObject;
 
@@ -168,25 +158,54 @@ namespace PrinterManager
             return false;
         }
 
-        private void SearchIconButton_Click(object sender, RoutedEventArgs e)
-        {
-            SearchIconButton.Visibility = Visibility.Collapsed;
-            TitleBarSearchBox.Visibility = Visibility.Visible;
-            TitleBarSearchBox.UpdateLayout();
-            TitleBarSearchBox.Focus(FocusState.Programmatic);
-        }
+        private void SearchIconButton_Click(object s, RoutedEventArgs e) => ToggleSearchBox(true, focus: true);
 
         private void TitleBarSearchBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            // Only relevant in compact mode: fold back into the icon when empty
             if (_isCompact == true && string.IsNullOrWhiteSpace(TitleBarSearchBox.Text))
             {
-                DispatcherQueue.TryEnqueue(() =>
-                {
-                    TitleBarSearchBox.Visibility = Visibility.Collapsed;
-                    SearchIconButton.Visibility = Visibility.Visible;
-                });
+                ToggleSearchBox(false);
             }
+        }
+
+        private void ToggleSearchBox(bool expanded, bool focus = false)
+        {
+            SearchIconButton.Visibility = expanded ? Visibility.Collapsed : Visibility.Visible;
+            TitleBarSearchBox.Visibility = expanded ? Visibility.Visible : Visibility.Collapsed;
+            SearchColumn.Width = expanded ? new GridLength(1, GridUnitType.Star) : new GridLength(0);
+
+            TitleBarSearchBoxContainer.UpdateLayout();
+
+            DispatcherQueue.TryEnqueue(() =>
+            {
+                UpdatePassthroughRegions();
+                if (expanded && focus)
+                    TitleBarSearchBox.Focus(FocusState.Programmatic);
+            });
+        }
+
+        private void UpdatePassthroughRegions()
+        {
+            var scale = Content.XamlRoot.RasterizationScale;
+            var rects = new List<RectInt32>();
+
+            void Add(FrameworkElement? el)
+            {
+                if (el is null || el.Visibility != Visibility.Visible || el.ActualWidth == 0) return;
+                var b = el.TransformToVisual(null)
+                          .TransformBounds(new Rect(0, 0, el.ActualWidth, el.ActualHeight));
+                rects.Add(new RectInt32(
+                    (int)Math.Round(b.X * scale),
+                    (int)Math.Round(b.Y * scale),
+                    (int)Math.Round(b.Width * scale),
+                    (int)Math.Round(b.Height * scale)));
+            }
+
+            Add(SearchIconButton);
+            Add(TitleBarSearchBox);
+
+            var source = InputNonClientPointerSource.GetForWindowId(AppWindow.Id);
+            source.SetRegionRects(NonClientRegionKind.Passthrough, rects.ToArray());
         }
     }
 }

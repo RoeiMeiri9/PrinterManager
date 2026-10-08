@@ -42,13 +42,21 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
-                            <StackPanel
-                                Grid.Column="0"
-                                Orientation="Horizontal"
-                                Spacing="12">
-                                <FontIcon FontSize="16" Glyph="&#xE71C;" />
-                                <TextBlock VerticalAlignment="Center" Text="All Printers" />
-                            </StackPanel>
+                            <Grid Grid.Column="0" ColumnSpacing="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <FontIcon
+                                    Grid.Column="0"
+                                    FontSize="16"
+                                    Glyph="&#xE71C;" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    Text="All Printers"
+                                    TextTrimming="CharacterEllipsis" />
+                            </Grid>
                             <TextBlock
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
@@ -63,13 +71,21 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
-                            <StackPanel
-                                Grid.Column="0"
-                                Orientation="Horizontal"
-                                Spacing="12">
-                                <FontIcon FontSize="16" Glyph="&#xE71C;" />
-                                <TextBlock VerticalAlignment="Center" Text="All Drivers" />
-                            </StackPanel>
+                            <Grid Grid.Column="0" ColumnSpacing="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <FontIcon
+                                    Grid.Column="0"
+                                    FontSize="16"
+                                    Glyph="&#xE71C;" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    Text="All Drivers"
+                                    TextTrimming="CharacterEllipsis" />
+                            </Grid>
                             <TextBlock
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
@@ -84,13 +100,21 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
-                            <StackPanel
-                                Grid.Column="0"
-                                Orientation="Horizontal"
-                                Spacing="12">
-                                <FontIcon FontSize="16" Glyph="&#xE71C;" />
-                                <TextBlock VerticalAlignment="Center" Text="Printers Not Ready" />
-                            </StackPanel>
+                            <Grid Grid.Column="0" ColumnSpacing="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <FontIcon
+                                    Grid.Column="0"
+                                    FontSize="16"
+                                    Glyph="&#xE71C;" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    Text="Printers Not Ready"
+                                    TextTrimming="CharacterEllipsis" />
+                            </Grid>
                             <TextBlock
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
@@ -105,13 +129,21 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
-                            <StackPanel
-                                Grid.Column="0"
-                                Orientation="Horizontal"
-                                Spacing="12">
-                                <FontIcon FontSize="16" Glyph="&#xE71C;" />
-                                <TextBlock VerticalAlignment="Center" Text="Printers With Jobs" />
-                            </StackPanel>
+                            <Grid Grid.Column="0" ColumnSpacing="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <FontIcon
+                                    Grid.Column="0"
+                                    FontSize="16"
+                                    Glyph="&#xE71C;" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    Text="Printers With Jobs"
+                                    TextTrimming="CharacterEllipsis" />
+                            </Grid>
                             <TextBlock
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
@@ -131,17 +163,37 @@
                 ResizeBehavior="PreviousAndNext"
                 ResizeDirection="Columns" />
 
-
             <ctl:DataTable
                 x:Name="PrintersTable"
                 Grid.Column="2"
                 ItemsSource="{x:Bind FiltersList}">
 
-                <ctl:TableColumn
-                    Width="250"
-                    Header="Printer Name"
-                    IsPrimary="True"
-                    Path="Name" />
+                <ctl:TableColumn Width="250" Header="Printer Name">
+                    <ctl:TableColumn.CellTemplate>
+                        <DataTemplate x:DataType="vm:FilterModel">
+                            <Grid ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <FontIcon
+                                    Grid.Column="0"
+                                    Margin="0,0,4,0"
+                                    FontSize="16"
+                                    Glyph="&#xE749;" />
+
+                                <TextBlock
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    FontWeight="SemiBold"
+                                    Text="{x:Bind Name, Mode=OneWay}"
+                                    TextTrimming="CharacterEllipsis" />
+                            </Grid>
+                        </DataTemplate>
+                    </ctl:TableColumn.CellTemplate>
+                </ctl:TableColumn>
+
                 <ctl:TableColumn
                     Width="180"
                     Header="Server / IP"
