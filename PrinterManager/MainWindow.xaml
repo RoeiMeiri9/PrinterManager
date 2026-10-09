@@ -65,18 +65,24 @@
             Grid.Row="1"
             IsBackButtonVisible="Collapsed"
             IsPaneToggleButtonVisible="True"
-            OpenPaneLength="220">
+            OpenPaneLength="220"
+            SelectedItem="{x:Bind CustomFilters}">
             <NavigationView.MenuItems>
                 <NavigationViewItem
+                    x:Name="CustomFilters"
                     Content="Custom Filters"
                     Icon="Filter"
                     Tag="CustomFiltersPage" />
-                <NavigationViewItem Content="Printer Servers" Tag="PrinterServersPage">
+                <NavigationViewItem
+                    x:Name="PrinterServers"
+                    Content="Printer Servers"
+                    Tag="PrinterServersPage">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="{x:Bind res:Icons.NetworkPrinter.Glyph}" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem
+                    x:Name="DeployedPrinters"
                     Content="Deployed Printers"
                     Icon="Print"
                     Tag="DeployedPrintersPage" />
