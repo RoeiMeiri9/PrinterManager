@@ -14,6 +14,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Controls\DataTable\**" />
+    <EmbeddedResource Remove="Controls\DataTable\**" />
+    <None Remove="Controls\DataTable\**" />
+    <Page Remove="Controls\DataTable\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Remove="Assets\Icons\BadgeLogo.scale-100.png" />
     <Content Remove="Assets\Icons\BadgeLogo.scale-125.png" />
     <Content Remove="Assets\Icons\BadgeLogo.scale-150.png" />
@@ -128,9 +134,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controls\DataTable\" />
-  </ItemGroup>
 
   <!--
     Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution
@@ -153,4 +156,8 @@
 		<ApplicationIcon>Assets\Icons\IconGroup51.ico</ApplicationIcon>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
+  
+	<ItemGroup>
+	  <PRIResource Remove="Controls\DataTable\**" />
+	</ItemGroup>
 </Project>
