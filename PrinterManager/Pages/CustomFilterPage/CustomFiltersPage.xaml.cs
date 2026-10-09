@@ -1,5 +1,4 @@
 using Microsoft.UI.Xaml.Controls;
-using PrinterManager.Controls;
 using PrinterManager.Pages.CustomFilterPage;
 using System.Collections.ObjectModel;
 
@@ -21,14 +20,15 @@ namespace PrinterManager.Pages
         private void LoadInitialPrinters()
         {
 
-            PrintersTable.Columns.Add(new TableColumn { Header = "Port", Path = "PortName", Width = 100 });
+            //PrintersTable.Columns.Add(new TableColumn { Header = "Port", Path = "PortName", Width = 100 });
 
             FiltersList.Add(new FilterModel
             {
                 Name = "Office-HP-LaserJet",
                 ServerName = "192.168.1.100",
                 Status = "Ready",
-                DriverName = "HP Universal Printing PCL 6"
+                DriverName = "HP Universal Printing PCL 6",
+                Port = "port"
             });
 
             FiltersList.Add(new FilterModel

@@ -9,6 +9,7 @@ namespace PrinterManager.Pages.CustomFilterPage
         private string _serverName = string.Empty;
         private string _status = string.Empty;
         private string _driverName = string.Empty;
+        private string _port = string.Empty;
 
         public string Name
         {
@@ -32,6 +33,12 @@ namespace PrinterManager.Pages.CustomFilterPage
         {
             get => _driverName;
             set { _driverName = value; OnPropertyChanged(); }
+        }
+
+        public string Port
+        {
+            get => _port;
+            set { _port = value; OnPropertyChanged(); }
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

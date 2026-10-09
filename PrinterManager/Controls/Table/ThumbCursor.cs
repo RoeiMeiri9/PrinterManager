@@ -2,7 +2,7 @@
 using Microsoft.UI.Xaml;
 using System.Reflection;
 
-namespace PrinterManager.Controls;
+namespace PrinterManager.Controls.Table;
 
 // Gives any UIElement a resize cursor via an attached property
 public static class ThumbCursor

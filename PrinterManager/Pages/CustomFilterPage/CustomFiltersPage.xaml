@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:CommunityToolkit="using:CommunityToolkit.WinUI.Controls"
     xmlns:converters="using:PrinterManager.Pages.CustomFilterPage"
-    xmlns:ctl="using:PrinterManager.Controls"
+    xmlns:ctl="using:PrinterManager.Controls.Table"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:PrinterManager.Pages.CustomFilterPage"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -174,7 +174,11 @@
                 Grid.Column="2"
                 ItemsSource="{x:Bind FiltersList}">
 
-                <ctl:TableColumn Width="250" Header="Printer Name">
+                <ctl:TableColumn
+                    Width="250"
+                    Header="Printer Name"
+                    SortDirection="Ascending"
+                    SortPath="Name">
                     <ctl:TableColumn.CellTemplate>
                         <DataTemplate x:DataType="vm:FilterModel">
                             <Grid ColumnSpacing="8">
@@ -205,7 +209,10 @@
                     Header="Server / IP"
                     Path="ServerName" />
 
-                <ctl:TableColumn Width="120" Header="Status">
+                <ctl:TableColumn
+                    Width="120"
+                    Header="Status"
+                    SortPath="Status">
                     <ctl:TableColumn.CellTemplate>
                         <DataTemplate x:DataType="vm:FilterModel">
                             <Border
@@ -226,6 +233,11 @@
                     Width="220"
                     Header="Driver"
                     Path="DriverName" />
+
+                <ctl:TableColumn
+                    Width="220"
+                    Header="Port"
+                    Path="Port" />
             </ctl:DataTable>
         </Grid>
     </Grid>
