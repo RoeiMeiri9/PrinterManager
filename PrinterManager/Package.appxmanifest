@@ -16,7 +16,7 @@
   <mp:PhoneIdentity PhoneProductId="09a1f3a2-14d7-42c3-9e3b-b03f98e87b3b" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>Printer Manager</DisplayName>
+    <DisplayName>Print Manager</DisplayName>
     <PublisherDisplayName>roeim</PublisherDisplayName>
     <Logo>Assets\Icons\StoreLogo.png</Logo>
   </Properties>

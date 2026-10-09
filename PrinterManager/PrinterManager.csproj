@@ -46,7 +46,6 @@
     <None Remove="Controls\DataTable.xaml" />
     <None Remove="CustomFiltersPage.xaml" />
     <None Remove="Pages\CustomFiltersPage.xaml" />
-    <None Remove="Resources\ThemeDictionaries.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -121,7 +120,10 @@
     <None Update="Assets\Icons\IconGroup51.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Page Update="Resources\ThemeDictionaries.xaml">
+    <Page Update="Resources\Fonts.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Resources\Themes.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Controls\DataTable.xaml">

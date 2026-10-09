@@ -43,7 +43,6 @@ namespace PrinterManager
             Title = AppTitle;
             SetTitleBar(titleBar);
             SetIcon();
-            UpdateSelectedIcon(DefaultDetailsViewItem);
             this.SetMinimumSize(MinWindowWidth, MinWindowHeight);
             SizeChanged += MainWindow_SizeChanged;
         }
@@ -197,6 +196,11 @@ namespace PrinterManager
 
             var source = InputNonClientPointerSource.GetForWindowId(AppWindow.Id);
             source.SetRegionRects(NonClientRegionKind.Passthrough, rects.ToArray());
+        }
+
+        private void ViewDropDownButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            UpdateSelectedIcon(DefaultDetailsViewItem);
         }
     }
 }

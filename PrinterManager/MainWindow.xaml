@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:res="using:PrinterManager.Resources"
     mc:Ignorable="d">
 
     <Window.SystemBackdrop>
@@ -45,7 +46,7 @@
                         Click="SearchIconButton_Click"
                         Style="{StaticResource SubtleButtonStyle}"
                         Visibility="Collapsed">
-                        <FontIcon Glyph="&#xE721;" />
+                        <FontIcon Glyph="{x:Bind res:Icons.Search.Glyph}" />
                     </Button>
                     <AutoSuggestBox
                         x:Name="TitleBarSearchBox"
@@ -72,7 +73,7 @@
                     Tag="CustomFiltersPage" />
                 <NavigationViewItem Content="Printer Servers" Tag="PrinterServersPage">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xEDA5;" />
+                        <FontIcon Glyph="{x:Bind res:Icons.NetworkPrinter.Glyph}" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem
@@ -104,7 +105,8 @@
                             Height="36"
                             Background="Transparent"
                             BorderBrush="Transparent"
-                            BorderThickness="0">
+                            BorderThickness="0"
+                            Loaded="ViewDropDownButton_Loaded">
                             <DropDownButton.Content>
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <ContentPresenter x:Name="SelectedIconPresenter" VerticalAlignment="Center" />
@@ -126,7 +128,7 @@
                                         GroupName="ViewMode"
                                         Text="Large Icons">
                                         <RadioMenuFlyoutItem.Icon>
-                                            <FontIcon FontFamily="/Assets/Fonts/FluentSystemIcons-Regular.ttf#FluentSystemIcons-Regular" Glyph="&#xF12B;" />
+                                            <FontIcon FontFamily="{x:Bind res:Icons.AppTitle.Font}" Glyph="{x:Bind res:Icons.AppTitle.Glyph}" />
                                         </RadioMenuFlyoutItem.Icon>
                                     </RadioMenuFlyoutItem>
 
@@ -149,7 +151,7 @@
                                         IsChecked="True"
                                         Text="Details">
                                         <RadioMenuFlyoutItem.Icon>
-                                            <FontIcon FontFamily="/Assets/Fonts/FluentSystemIcons-Regular.ttf#FluentSystemIcons-Regular" Glyph="&#xE065;" />
+                                            <FontIcon FontFamily="{x:Bind res:Icons.ListDetail.Font}" Glyph="{x:Bind res:Icons.ListDetail.Glyph}" />
                                         </RadioMenuFlyoutItem.Icon>
                                     </RadioMenuFlyoutItem>
 
@@ -165,7 +167,7 @@
                             BorderBrush="Transparent"
                             BorderThickness="0">
                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                <FontIcon Glyph="&#xE894;" />
+                                <FontIcon Glyph="{x:Bind res:Icons.Clear.Glyph}" />
                                 <TextBlock
                                     Margin="0,-1,8,1"
                                     VerticalAlignment="Center"
@@ -178,7 +180,7 @@
                             BorderBrush="Transparent"
                             BorderThickness="0">
                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                <FontIcon Glyph="&#xEDE1;" />
+                                <FontIcon Glyph="{x:Bind res:Icons.Export.Glyph}" />
                                 <TextBlock
                                     Margin="0,-1,8,1"
                                     VerticalAlignment="Center"
@@ -196,28 +198,28 @@
                             Background="Transparent"
                             BorderBrush="Transparent"
                             BorderThickness="0">
-                            <FontIcon FontSize="14" Glyph="&#xE72C;" />
+                            <FontIcon FontSize="14" Glyph="{x:Bind res:Icons.Refresh.Glyph}" />
                         </Button>
                         <Button
                             Height="36"
                             Background="Transparent"
                             BorderBrush="Transparent"
                             BorderThickness="0">
-                            <FontIcon FontSize="14" Glyph="&#xE74A;" />
+                            <FontIcon FontSize="14" Glyph="{x:Bind res:Icons.Up.Glyph}" />
                         </Button>
                         <Button
                             Height="36"
                             Background="Transparent"
                             BorderBrush="Transparent"
                             BorderThickness="0">
-                            <FontIcon FontSize="14" Glyph="&#xE72B;" />
+                            <FontIcon FontSize="14" Glyph="{x:Bind res:Icons.Back.Glyph}" />
                         </Button>
                         <Button
                             Height="36"
                             Background="Transparent"
                             BorderBrush="Transparent"
                             BorderThickness="0">
-                            <FontIcon FontSize="14" Glyph="&#xE72A;" />
+                            <FontIcon FontSize="14" Glyph="{x:Bind res:Icons.Forward.Glyph}" />
                         </Button>
                     </StackPanel>
                 </Grid>

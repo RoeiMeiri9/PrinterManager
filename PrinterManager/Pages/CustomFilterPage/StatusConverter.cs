@@ -5,17 +5,10 @@ using System;
 
 namespace PrinterManager.Pages.CustomFilterPage
 {
-    // מחלקה שתחזיק גם את הרקע וגם את צבע הטקסט
-    public class StatusColors
-    {
-        public required Brush Background { get; set; }
-        public required Brush Foreground { get; set; }
-    }
-
     public class StatusColorsNames
     {
-        public required String Background { get; set; }
-        public required String Foreground { get; set; }
+        public required string Background { get; set; }
+        public required string Foreground { get; set; }
     }
 
     public partial class StatusConverter : IValueConverter

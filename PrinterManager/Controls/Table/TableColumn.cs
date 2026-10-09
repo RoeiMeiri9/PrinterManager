@@ -1,5 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Markup;
+using PrinterManager.Resources;
 using System;
 using System.Collections;
 using System.Collections.ObjectModel;
@@ -125,7 +126,7 @@ namespace PrinterManager.Controls.Table
         }
 
         // header arrow (Segoe Fluent: ChevronUp / ChevronDown)
-        public string SortGlyph => _sortDirection == TableSortDirection.Descending ? "\uE70D" : "\uE70E";
+        public string SortGlyph => _sortDirection == TableSortDirection.Descending ? Icons.ChevronUp.Glyph : Icons.ChevronDown.Glyph;
 
         public Visibility SortIndicatorVisibility =>
             _sortDirection == TableSortDirection.None ? Visibility.Collapsed : Visibility.Visible;
